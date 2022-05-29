@@ -30,6 +30,8 @@ const run = async () => {
     const cartsCollection = client.db("eShebaDB").collection("carts");
     const usersCollection = client.db("eShebaDB").collection("users");
     const reviewsCollection = client.db("eShebaDB").collection("reviews");
+    const blogsCollection = client.db("eShebaDB").collection("blogs");
+    const teamsCollection = client.db("eShebaDB").collection("teams");
 
     /*------------------------------------------*\
                 Product API Start
@@ -137,14 +139,13 @@ const run = async () => {
       res.send(allProduct);
     });
 
-
     // load single cart using _id
     app.get("/single-cart/:id", async (req, res) => {
-        const id = req.params.id;
-        const query = { _id: ObjectId(id) };
-        const cart = await cartsCollection.findOne(query);
-        res.send(cart);
-      });
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const cart = await cartsCollection.findOne(query);
+      res.send(cart);
+    });
 
     // load multiple item using user email for Cart
     app.get("/my-carts/:searchEmail", async (req, res) => {
@@ -245,17 +246,16 @@ const run = async () => {
       res.send(result);
     });
 
-
     // delete a order from database from Orders
     app.delete(`/deleteFromOrders/:id`, async (req, res) => {
-        const id = req.params.id;
-        console.log(id);
-        const query = { _id:id };
-        console.log(query);
-        const result = await orderCollection.deleteOne(query);
-        res.send(result);
-        console.log(result);
-      });
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: id };
+      console.log(query);
+      const result = await orderCollection.deleteOne(query);
+      res.send(result);
+      console.log(result);
+    });
     /*------------------------------------------*\
                     Order API End
     \*------------------------------------------*/
@@ -284,6 +284,51 @@ const run = async () => {
     /*------------------------------------------*\
                     Review API End
     \*------------------------------------------*/
+
+    /*------------------------------------------*\
+                    Blogs API Start
+    \*------------------------------------------*/
+
+    //API to add a blog
+    app.post("/add-blog", async (req, res) => {
+      const blog = req.body;
+      const result = await blogsCollection.insertOne(blog);
+      res.send(result);
+    });
+
+    //API to get blogs
+    app.get("/blogs", async (req, res) => {
+      const query = {};
+      const blogs = await blogsCollection.find(query).toArray();
+      res.send(blogs);
+    });
+
+    /*------------------------------------------*\
+                    Blogs API End
+    \*------------------------------------------*/
+  
+    /*------------------------------------------*\
+                    Teams API Start
+    \*------------------------------------------*/
+
+    //API to add a blog
+    app.post("/add-team", async (req, res) => {
+      const blog = req.body;
+      const result = await teamsCollection.insertOne(blog);
+      res.send(result);
+    });
+
+    //API to get blogs
+    app.get("/teams", async (req, res) => {
+      const query = {};
+      const teams = await teamsCollection.find(query).toArray();
+      res.send(teams);
+    });
+
+    /*------------------------------------------*\
+                    Blogs API End
+    \*------------------------------------------*/
+  
   } finally {
     // await client.close();
   }
