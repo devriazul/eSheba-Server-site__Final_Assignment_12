@@ -25,5 +25,6 @@ ETC...
 
 Thank you for visiting our site.
 find me on facebook: [devriazul](https://www.facebook.com/devriazul)  
+find me on web: [devriazul](https://devriazul.fastitbd.com)  
     
 
